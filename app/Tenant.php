@@ -33,5 +33,7 @@ class Tenant extends Model
         Schema::connection('mysql')->getConnection()->reconnect();
 
         app()->instance('tenant', $this);
+
+        return $this;
     }
 }

@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         if ($_SERVER['argv'][1] != 'tenants:migrate') {
             $this->call(LandlordSeeder::class);
+        } else {
+            $this->call(UserSeeder::class);
         }
-
-        $this->call(UserSeeder::class);
     }
 }

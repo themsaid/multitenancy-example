@@ -41,9 +41,10 @@ class TenantsMigrateCommand extends Command
     {
         $tenant->use();
 
-        $this->info("Migrating: {$tenant->name} #{$tenant->id}");
-
-        $command = $this->option('fresh') ? 'migrate:fresh' : 'migrate';
+        $this->line('');
+        $this->line("-----------------------------------------");
+        $this->info("Migrating Tenant #{$tenant->id} ({$tenant->name})");
+        $this->line("-----------------------------------------");
 
         $options = ['--force' => true];
 
@@ -51,6 +52,9 @@ class TenantsMigrateCommand extends Command
             $options['--seed'] = true;
         }
 
-        return $this->call($command, $options);
+        $this->call(
+            $this->option('fresh') ? 'migrate:fresh' : 'migrate',
+            $options
+        );
     }
 }

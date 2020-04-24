@@ -39,7 +39,7 @@ class TenantsMigrateCommand extends Command
      */
     public function migrate($tenant)
     {
-        $tenant->use();
+        $tenant->configureDatabase()->use();
 
         $this->line('');
         $this->line("-----------------------------------------");

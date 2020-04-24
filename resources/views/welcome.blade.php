@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Welcome to {{app('tenant')->name}}
                 </div>
 
                 <div class="links">

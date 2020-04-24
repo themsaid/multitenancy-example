@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Tenant;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Tenant;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -19,13 +16,19 @@ class ExampleTest extends TestCase
             'database.connections.landlord' => config('database.connections.sqlite')
         ]);
 
+        config([
+            'database.connections.tenant' => config('database.connections.sqlite')
+        ]);
+
+
         $this->artisan('migrate --database=landlord --path=database/migrations/landlord');
+        $this->artisan('migrate --database=tenant');
     }
 
     /**
      * @test
      */
-    public function itReturnsListOfUsers()
+    public function itReturnsCurrentTenantAndListOfItsUsers()
     {
         $tenant = factory(Tenant::class)->create();
 
@@ -38,7 +41,8 @@ class ExampleTest extends TestCase
         $response->assertJsonCount(4, 'users');
 
         $response->assertJsonFragment([
-            'name' => $tenant->name
+            'name' => $tenant->name,
+            'domain' => $tenant->domain,
         ]);
     }
 }

@@ -20,17 +20,27 @@ class Tenant extends Model
     /**
      *
      */
-    public function use()
+    public function configureDatabase()
     {
         config([
-            'database.connections.mysql.database' => $this->database,
+            'database.connections.tenant.database' => $this->database,
         ]);
 
-        DB::purge('mysql');
+        DB::purge('tenant');
 
-        DB::reconnect('mysql');
+        DB::reconnect('tenant');
 
-        Schema::connection('mysql')->getConnection()->reconnect();
+        Schema::connection('tenant')->getConnection()->reconnect();
+
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function use()
+    {
+        app()->forgetInstance('tenant');
 
         app()->instance('tenant', $this);
 

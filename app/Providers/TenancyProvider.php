@@ -15,9 +15,21 @@ class TenancyProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureQueue();
-
         $this->configureRequests();
+
+        $this->configureQueue();
+    }
+
+    /**
+     *
+     */
+    public function configureRequests()
+    {
+        if (! $this->app->runningInConsole()) {
+            $host = $this->app['request']->getHost();
+
+            Tenant::whereDomain($host)->firstOrFail()->configure()->use();
+        }
     }
 
     /**
@@ -34,17 +46,5 @@ class TenancyProvider extends ServiceProvider
                 Tenant::find($event->job->payload()['tenant_id'])->configure()->use();
             }
         });
-    }
-
-    /**
-     *
-     */
-    public function configureRequests()
-    {
-        if (! $this->app->runningInConsole()) {
-            $host = $this->app['request']->getHost();
-
-            Tenant::whereDomain($host)->firstOrFail()->configure()->use();
-        }
     }
 }

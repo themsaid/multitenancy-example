@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Schema;
 class AddLandlordTenantsTable extends Migration
 {
     /**
-     * The name of the database connection to use.
-     *
-     * @var string|null
-     */
-    protected $connection = 'landlord';
-
-    /**
      * Run the migrations.
      *
      * @return void

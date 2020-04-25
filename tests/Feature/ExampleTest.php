@@ -13,13 +13,16 @@ class ExampleTest extends TestCase
         parent::setUp();
 
         config([
-            'database.connections.landlord' => config('database.connections.sqlite')
-        ]);
+            'database.connections.landlord' => [
+                'driver' => 'sqlite',
+                'database' => ':memory:'
+            ],
 
-        config([
-            'database.connections.tenant' => config('database.connections.sqlite')
+            'database.connections.tenant' => [
+                'driver' => 'sqlite',
+                'database' => ':memory:'
+            ]
         ]);
-
 
         $this->artisan('migrate --database=landlord --path=database/migrations/landlord');
         $this->artisan('migrate --database=tenant');

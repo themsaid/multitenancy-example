@@ -20,7 +20,7 @@ class TenancyProvider extends ServiceProvider
         if (! $this->app->runningInConsole()) {
             $host = $this->app['request']->getHost();
 
-            Tenant::whereDomain($host)->firstOrFail()->configureDatabase()->use();
+            Tenant::whereDomain($host)->firstOrFail()->configure()->use();
         }
     }
 
@@ -35,7 +35,7 @@ class TenancyProvider extends ServiceProvider
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
             if (isset($event->job->payload()['tenant_id'])) {
-                Tenant::find($event->job->payload()['tenant_id'])->configureDatabase()->use();
+                Tenant::find($event->job->payload()['tenant_id'])->configure()->use();
             }
         });
     }

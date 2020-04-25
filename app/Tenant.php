@@ -20,7 +20,7 @@ class Tenant extends Model
     /**
      *
      */
-    public function configureDatabase()
+    public function configure()
     {
         config([
             'database.connections.tenant.database' => $this->database,

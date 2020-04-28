@@ -7,10 +7,13 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      *
-     * @return void
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        if ($_SERVER['argv'][1] != 'tenants:migrate') {
+            return $this->call(LandlordSeeder::class);
+        }
+
+        $this->call(UserSeeder::class);
     }
 }

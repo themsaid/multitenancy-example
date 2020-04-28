@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/users', function () {
+    return [
+        'tenant' => app('tenant'),
+        'users' => \App\User::all()
+    ];
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -12,7 +12,7 @@ class TenantsMigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tenants:migrate {tenant?} {--fresh} {--seed}';
+    protected $signature = 'tenants:migrate {tenant?} {--fresh} {--seed} {--rollback}';
 
     /**
      * Execute the console command.
@@ -40,6 +40,12 @@ class TenantsMigrateCommand extends Command
     public function migrate($tenant)
     {
         $tenant->configure()->use();
+        
+        if ($this->option('rollback')) {
+            $this->call('migrate:rollback');
+
+            return;
+        }
 
         $this->line('');
         $this->line("-----------------------------------------");
